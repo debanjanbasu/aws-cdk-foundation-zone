@@ -1,10 +1,9 @@
-import cdk = require("@aws-cdk/core");
+import { Stack, App, StackProps } from "@aws-cdk/core";
 
-export class FoundationZoneStack extends cdk.Stack {
-  constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
+export class FoundationZoneStack extends Stack {
+  constructor(scope: App, id: string, props?: StackProps) {
     super(scope, id, props);
 
     console.log("Hello World");
-    
   }
 }

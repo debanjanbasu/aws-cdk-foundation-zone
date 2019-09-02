@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-import cdk = require("@aws-cdk/core");
+import { App } from "@aws-cdk/core";
 import { FoundationZoneStack } from "../lib/foundation-zone-stack";
 
-const app = new cdk.App();
+const app = new App();
+
 new FoundationZoneStack(app, "FoundationZoneStack");
