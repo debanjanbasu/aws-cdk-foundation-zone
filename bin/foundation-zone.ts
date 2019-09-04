@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { App } from "@aws-cdk/core";
 import { FoundationZoneVPC } from "../lib/foundation-zone-vpc";
-import { WordpressRDS } from "../lib/wordpress-db/wordpress-rds";
+import { AutoScalingFargateService } from "../lib/ecs-cluster/auto-scaling-fargate-service";
 
 const ENV = {
   region: "ap-southeast-2",
@@ -11,12 +11,18 @@ const ENV = {
 class MyApp extends App {
   constructor() {
     super();
-    new FoundationZoneVPC(this, "FoundationZoneVPC", {
+    const vpcStack = new FoundationZoneVPC(this, "FoundationZoneVPC", {
       env: ENV
     });
-    new WordpressRDS(this, "WordpressRDS", {
-      env: ENV
-    });
+    const ecsStack = new AutoScalingFargateService(
+      this,
+      "AutoScalingFargateService",
+      vpcStack.vpc,
+      {
+        env: ENV
+      }
+    );
+    ecsStack.addDependency(vpcStack, "ECS needs a vpc to launch into");
   }
 }
 
