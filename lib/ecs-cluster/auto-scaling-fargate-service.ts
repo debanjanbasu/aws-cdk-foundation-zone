@@ -13,14 +13,18 @@ export class AutoScalingFargateService extends Stack {
     });
 
     // Create Fargate Service
-    const fargateService = new LoadBalancedFargateService(this, "sample-php-app", {
-      cluster,
-      image: ContainerImage.fromRegistry("amazon/amazon-ecs-sample")
-    });
+    const fargateService = new LoadBalancedFargateService(
+      this,
+      "sample-php-app",
+      {
+        cluster,
+        image: ContainerImage.fromRegistry("amazon/amazon-ecs-sample")
+      }
+    );
 
     // Setup AutoScaling policy
     const scaling = fargateService.service.autoScaleTaskCount({
-      maxCapacity: 2
+      maxCapacity: 3
     });
 
     scaling.scaleOnCpuUtilization("CpuScaling", {
